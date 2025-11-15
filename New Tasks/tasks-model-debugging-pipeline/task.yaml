@@ -29,8 +29,8 @@ instruction: |-
   4.  **Execute the Pipeline:** Run your new `preprocess.py` script first, then run your modified `train.py` script to generate the final `model.joblib` file.
 
   The test harness will automatically load your final `model.joblib` and validate its performance on a hidden test set.
-author_name: Gemini
-author_email: gemini@google.com
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
 difficulty: hard
 category: data-science
 tags:
