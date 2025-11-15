@@ -1,0 +1,13 @@
+services:
+  tasks-sales-data-aggregation:
+    build: .
+    image: terminal-bench-tasks-sales-data-aggregation
+    # Set a tty to make the container run indefinitely
+    tty: true
+    # Set the working directory
+    working_dir: /app
+    volumes:
+      # Mount the /runs directory to store agent outputs and logs
+      - type: bind
+        source: ./runs
+        target: /app/runs

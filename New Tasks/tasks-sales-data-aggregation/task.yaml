@@ -1,0 +1,39 @@
+instruction: |-
+  You are a data analyst. Your task is to process a "dirty" sales CSV file, clean it, and generate an aggregated summary report.
+
+  The source data is located at: `/app/data/sales_records.csv`
+  The final report must be saved at: `/app/reports/product_summary.json`
+
+  You must perform the following steps:
+  1.  **Read Data:** Read the CSV file from `/app/data/sales_records.csv`.
+  2.  **Clean `product_id`:** The `product_id` column has inconsistent formatting. Ensure all values in this column start with the prefix `PID-`. (e.g., if a value is "B12", it should be changed to "PID-B12". If it is "PID-A45", it should remain unchanged).
+  3.  **Clean `price`:** The `price` column has missing values. You must fill these missing values with the **median** price calculated from all other non-missing rows.
+  4.  **Transform:** Create a new column named `total_sale`. This column should be the result of multiplying the `quantity` column by the cleaned `price` column.
+  5.  **Aggregate:** Group the transformed data by the cleaned `product_id`. Calculate the sum of `quantity` (name this output column `units_sold`) and the sum of `total_sale` (name this output column `total_revenue`).
+  6.  **Save Report:** Save the final aggregated data to `/app/reports/product_summary.json`. The JSON file must be in the `records` orientation (a list of dictionaries, one for each product).
+
+  Example of `records` orientation:
+  [
+    {"product_id": "PID-XYZ", "total_revenue": 100.0, "units_sold": 10},
+    ...
+  ]
+
+  You may install any necessary Python packages (like pandas, numpy, etc.) to complete the task.
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: easy
+category: data-science
+tags:
+  - data-processing
+  - data-cleaning
+  - pandas
+  - json
+  - etl
+parser_name: pytest
+max_agent_timeout_sec: 900.0
+max_test_timeout_sec: 180.0
+run_tests_in_same_shell: false
+disable_asciinema: false
+estimated_duration_sec: 120
+expert_time_estimate_min: 3
+junior_time_estimate_min: 8
