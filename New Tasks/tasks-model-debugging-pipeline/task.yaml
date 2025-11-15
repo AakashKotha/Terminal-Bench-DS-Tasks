@@ -1,0 +1,50 @@
+instruction: |-
+  You are a machine learning engineer tasked with fixing a broken training pipeline.
+
+  A script at `/app/src/train.py` is used to train a logistic regression model on data from `/app/data/employees.csv`. However, it performs poorly, achieving only ~50-60% accuracy.
+
+  Your investigation reveals two problems:
+  1.  The numerical features (`salary`, `projects_completed`) are on vastly different scales and are not being normalized, which hurts model convergence.
+  2.  The `department` feature is categorical (text) and is being completely ignored by the current script, leading to poor predictive power.
+
+  Your goal is to fix this pipeline to produce a high-performance model.
+
+  **You must perform the following steps:**
+
+  1.  **Create a NEW script:** Create a new Python script named `/app/src/preprocess.py`.
+  2.  **Implement Preprocessing:** This script must:
+      a.  Load the raw data from `/app/data/employees.csv`.
+      b.  Isolate the features (`department`, `salary`, `projects_completed`) and the target (`will_be_promoted`).
+      c.  Apply `StandardScaler` to the numerical features (`salary`, `projects_completed`).
+      d.  Apply `OneHotEncoder` to the categorical feature (`department`).
+      e.  Use a `ColumnTransformer` to combine these preprocessing steps.
+      f.  Fit and transform the training features `X` and extract the target `y`.
+      g.  Save the final processed `X` and `y` arrays into a single compressed NumPy file at `/app/data/processed_data.npz`. (Use `np.savez_compressed`).
+
+  3.  **Modify the Training Script:** You must **edit** the existing `/app/src/train.py` script.
+      a.  Change its data loading logic. Instead of loading `employees.csv`, it must now load the `X` and `y` arrays from `/app/data/processed_data.npz`.
+      b.  The script should then train the `LogisticRegression` model on this new, preprocessed data.
+      c.  The script must save the final, high-accuracy model to `/app/models/model.joblib`.
+
+  4.  **Execute the Pipeline:** Run your new `preprocess.py` script first, then run your modified `train.py` script to generate the final `model.joblib` file.
+
+  The test harness will automatically load your final `model.joblib` and validate its performance on a hidden test set.
+author_name: Gemini
+author_email: gemini@google.com
+difficulty: hard
+category: data-science
+tags:
+  - machine-learning
+  - scikit-learn
+  - pandas
+  - preprocessing
+  - debugging
+  - multi-step
+parser_name: pytest
+max_agent_timeout_sec: 900.0
+max_test_timeout_sec: 180.0
+run_tests_in_same_shell: false
+disable_asciinema: false
+estimated_duration_sec: 420
+expert_time_estimate_min: 15
+junior_time_estimate_min: 45

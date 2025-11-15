@@ -1,0 +1,10 @@
+services:
+  tasks-model-debugging-pipeline:
+    build: .
+    image: terminal-bench-tasks-model-debugging-pipeline
+    tty: true
+    working_dir: /app
+    volumes:
+      - type: bind
+        source: ./runs
+        target: /app/runs
