@@ -1,0 +1,55 @@
+instruction: |-
+  You are a senior data scientist. Your task is to analyze IoT sensor data to find "anomalous events" by cross-referencing two different data sources.
+
+  **Data Sources:**
+  1.  `/app/data/sensor_metadata.json`: A JSON file mapping sensor IDs to their specific alert thresholds.
+  2.  `/app/data/sensor_readings.db`: A SQLite database containing all sensor readings, with columns: `timestamp` (Unix integer), `sensor_id` (string), and `value` (float).
+
+  **Critical Task: Identify Anomalous Events**
+  An "anomalous event" is defined as **three or more *consecutive* readings from the *same sensor*** where the `value` is **strictly greater than** that sensor's `threshold` (defined in the JSON file).
+
+  * A single reading above the threshold is NOT an event.
+  * Two consecutive readings above the threshold are NOT an event.
+  * The readings must be consecutive in time *for that specific sensor*.
+
+  **Your Goal:**
+  You must produce a JSON report at `/app/reports/anomaly_report.json` that lists all identified anomalous events.
+
+  **Output Format:**
+  The output file must be a JSON list of objects. Each object represents *one* anomalous event and must have the following fields:
+  * `sensor_id`: The ID of the sensor (e.g., "s-01").
+  * `event_start_time`: The timestamp of the *first* anomalous reading in the event, as an **ISO 8601 string** in UTC (e.g., "2025-01-01T12:00:02Z").
+  * `event_end_time`: The timestamp of the *last* anomalous reading in the event, as an **ISO 8601 string** in UTC.
+  * `peak_value`: The *highest* `value` recorded during the event.
+
+  Example Output:
+  [
+    {
+      "sensor_id": "s-01",
+      "event_start_time": "2025-01-01T12:00:02Z",
+      "event_end_time": "2025-01-01T12:00:04Z",
+      "peak_value": 30.2
+    }
+  ]
+
+  You may install any necessary Python packages (like pandas, numpy, etc.) to complete this complex task. The `sqlite3` command-line tool is also available.
+author_name: Gemini
+author_email: gemini@google.com
+difficulty: hard
+category: data-science
+tags:
+  - data-processing
+  - data-cleaning
+  - pandas
+  - json
+  - sqlite
+  - etl
+  - multi-step
+parser_name: pytest
+max_agent_timeout_sec: 900.0
+max_test_timeout_sec: 180.0
+run_tests_in_same_shell: false
+disable_asciinema: false
+estimated_duration_sec: 300
+expert_time_estimate_min: 10
+junior_time_estimate_min: 30

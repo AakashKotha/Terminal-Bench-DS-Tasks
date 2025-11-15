@@ -1,0 +1,10 @@
+services:
+  tasks-iot-anomaly-detection:
+    build: .
+    image: terminal-bench-tasks-iot-anomaly-detection
+    tty: true
+    working_dir: /app
+    volumes:
+      - type: bind
+        source: ./runs
+        target: /app/runs
