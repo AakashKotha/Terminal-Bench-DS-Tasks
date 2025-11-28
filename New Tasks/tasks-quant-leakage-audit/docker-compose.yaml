@@ -1,0 +1,12 @@
+services:
+  agent-environment:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      # Mount tests read-only so agent cannot modify the validator
+      - ./tests:/app/tests:ro
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+    command: tail -f /dev/null

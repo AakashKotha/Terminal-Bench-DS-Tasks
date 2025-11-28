@@ -1,0 +1,42 @@
+instruction: |-
+  You are a Quantitative Researcher at a high-frequency trading firm. 
+  A junior developer has written a feature engineering pipeline at `/app/src/feature_pipeline.py`.
+  
+  **The Problem:**
+  The backtests look *too good*. We suspect **Look-Ahead Bias** (Data Leakage). The pipeline is likely using future information to calculate features for the current timestamp, which renders the model useless in production.
+
+  **Your Mission:**
+  Audit and rewrite the pipeline to ensure **Strict Temporal Causality**. 
+  
+  **Specific Constraints & Traps to Fix:**
+  1.  **Windowing Logic:** The current rolling calculations are peeking at future rows. You must ensure all windowing is strictly *trailing* (past-looking).
+  2.  **Global Statistics Leakage:** The code currently normalizes data using statistics (mean/std) derived from the *entire* dataset. This is illegal. You must replace this with **Rolling Z-Scores** using a strictly past-looking window.
+  3.  **Time Awareness:** The raw data has irregular timestamps (ticks). The current code uses simple row-counts (e.g., `window=60`). You must convert this to **Time-Based Windows** (e.g., `60s`) to account for market activity gaps.
+
+  **Deliverables:**
+  1.  Modify the script `/app/src/feature_pipeline.py`.
+  2.  It must contain a function `generate_features(df: pd.DataFrame) -> pd.DataFrame` that accepts raw OHLCV data and returns the cleaned feature set.
+  3.  The output DataFrame must contain specific columns: `volatility_60s`, `momentum_60s`, and `zscore_price_60s`.
+  4.  The output must be deterministic and causal.
+
+  **Input Data Schema:**
+  - File: `/app/data/tick_data.parquet`
+  - Columns: `timestamp` (datetime64[ns]), `price` (float), `volume` (float).
+  - Index: `timestamp`.
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: machine-learning
+tags:
+  - time-series
+  - finance
+  - data-leakage
+  - debugging
+  - pandas
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 60
