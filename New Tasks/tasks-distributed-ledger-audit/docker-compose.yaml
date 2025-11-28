@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  agent-environment:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      # Mount tests read-only to prevent tampering
+      - ./tests:/app/tests:ro
+      # Mount run-tests.sh read-only
+      - ./run-tests.sh:/app/run-tests.sh:ro
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+    command: tail -f /dev/null

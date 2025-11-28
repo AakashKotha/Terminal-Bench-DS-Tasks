@@ -1,0 +1,41 @@
+instruction: |-
+  You are a Lead Backend Engineer conducting a forensic audit on a distributed ledger system that recently recovered from a "split-brain" network partition.
+
+  The raw transaction logs are scattered across three legacy shards located in `/app/data/raw/`:
+  1. `shard_alpha.csv`: Legacy banking format. Amounts are formatted strings (e.g., "$1,200.50"). Timestamps are UTC ISO8601.
+  2. `shard_beta.jsonl`: Modern payment gateway logs. Amounts are floats. Timestamps are Unix Epoch (milliseconds).
+  3. `shard_gamma.xml`: Third-party integration logs. Amounts are integers representing *cents* (e.g., 100 = $1.00). Timestamps are string format "YYYY-MM-DD HH:mm:ss".
+
+  **Your Goal:**
+  Reconstruct the final authoritative balance for every account and export the result to `/app/audit/final_balances.parquet`.
+
+  **Business Rules for Reconstruction:**
+  1. **Schema Normalization:** Ingest all shards into a unified structure.
+  2. **Global Deduplication:** The same `transaction_id` may appear in multiple shards due to retries. You must resolve conflicts using a **Last-Write-Wins (LWW)** strategy based on the timestamp.
+  3. **Event Logic:**
+     - `TX`: Standard transaction. Adds/subtracts from account balance.
+     - `CORRECTION`: References a `ref_transaction_id`. This event *replaces* the `amount` of the referenced transaction with the new amount in the correction event. (The correction event itself does not change the balance, it modifies the history).
+     - `TOMBSTONE`: References a `ref_transaction_id`. The referenced transaction (and the tombstone itself) must be strictly excluded from final calculations.
+  4. **Validation Constraints:**
+     - The output must be a Parquet file at `/app/audit/final_balances.parquet`.
+     - Columns must be exactly: `account_id` (string), `final_balance` (float64), `transaction_count` (int64).
+     - `final_balance` must be rounded to 2 decimal places.
+     - `transaction_count` is the number of valid (non-dropped) transactions contributing to the balance.
+     - Rows must be sorted by `account_id` ascending.
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: data-engineering
+tags:
+  - data-cleaning
+  - distributed-systems
+  - pandas
+  - xml-parsing
+  - logic-puzzle
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 25
+junior_time_estimate_min: 90
