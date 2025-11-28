@@ -1,0 +1,37 @@
+instruction: |-
+  You are an MLOps Engineer responsible for the Feature Store at a Fintech company.
+  
+  **The Incident:**
+  The Data Science team is reporting massive **Data Leakage** in their training datasets. Their model shows 99% accuracy offline, but fails in production. 
+  
+  **Diagnosis:**
+  The current dataset generation script (`/app/src/create_training_set.py`) joins "Loan Applications" (Labels) with "User Credit Scores" (Features) incorrectly. 
+  It currently performs a standard merge on `user_id`. This means if a user's credit score changed *after* they applied for a loan, the training set sees the *future* score, not the score *at the time of application*.
+  
+  **Your Mission:**
+  1.  Refactor `/app/src/create_training_set.py` to implement **Point-in-Time Correctness** (also known as an "As-Of Join").
+  2.  **Constraint:** For every row in `loan_applications`, the associated `credit_score` must be the *most recent* score available strictly **on or before** the `application_at` timestamp.
+  3.  **Constraint:** If no score exists for a user *before* the application time, that row should have a `NaN` score (or be dropped, your choice, as long as no future data is leaked).
+  4.  **Output:** Save the corrected training set to `/app/data/training_set_corrected.parquet`.
+      - Schema: `application_id`, `user_id`, `application_at`, `is_approved`, `credit_score`, `score_updated_at`.
+  
+  **Resources:**
+  -   Events (Labels): `/app/data/loan_applications.parquet`
+  -   Features (History): `/app/data/credit_score_history.parquet`
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: ml-ops
+tags:
+  - feature-store
+  - data-leakage
+  - temporal-join
+  - pandas
+  - debugging
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 25
+junior_time_estimate_min: 120
