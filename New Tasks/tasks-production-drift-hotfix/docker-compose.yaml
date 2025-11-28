@@ -1,0 +1,10 @@
+services:
+  agent-environment:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./tests:/app/tests:ro
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+    command: tail -f /dev/null

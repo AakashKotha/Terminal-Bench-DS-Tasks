@@ -1,0 +1,35 @@
+instruction: |-
+  You are the On-Call ML Engineer. An urgent alert has triggered for the "Purchase Propensity Model" in production.
+  
+  **The Incident:**
+  At `2024-02-15 08:00 UTC`, the model's accuracy (AUC) plummeted from **0.85** to **0.52** (random guessing).
+  
+  **Your Investigation:**
+  The Data Platform team reports that the upstream "User-Agent" string format changed for mobile devices around that time, but the current feature extraction pipeline was not updated.
+  
+  **Your Mission (Multi-Step):**
+  1.  **Diagnose:** Inspect the raw logs in `/app/data/production_logs.jsonl`. Identify the specific change in the `user_agent` field that is causing the `is_mobile` and `os_version` features to fail (likely returning default/null values).
+  2.  **Fix the Pipeline:** Modify `/app/src/feature_extractor.py`. Update the regex or parsing logic to correctly handle **BOTH** the legacy format (pre-08:00) and the new format (post-08:00).
+  3.  **Retrain:** Run the training script `/app/src/train.py`. This script uses your fixed extractor to generate a new dataset and trains a fresh Logistic Regression model.
+  4.  **Validate:** The training script will output a new model artifact to `/app/models/propensity_model_v2.joblib`. It must achieve **AUC > 0.80** on the holdout set.
+  
+  **Constraints:**
+  -   You cannot simply filter out the new data. You must **recover** the features from it.
+  -   The new model must handle mixed traffic (old and new formats) robustly.
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: ml-ops
+tags:
+  - production-engineering
+  - concept-drift
+  - regex
+  - sklearn
+  - debugging
+parser_name: pytest
+max_agent_timeout_sec: 900.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 30
+junior_time_estimate_min: 120
