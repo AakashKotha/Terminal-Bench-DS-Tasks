@@ -1,0 +1,30 @@
+instruction: |-
+  You are a Bioinformatics Engineer optimizing a "Gene Finder" tool.
+  The tool uses a Hidden Markov Model (HMM) and the Viterbi algorithm to classify regions of DNA as either **Exon** (coding) or **Intron** (non-coding).
+
+  **The Incident:**
+  The prototype script `/app/src/gene_finder.py` passes all unit tests on short sequences. However, when run on a full-length chromosome fragment (`/app/data/chromosome_segment.txt`), it fails catastrophically. The predicted path is either uniform or nonsense, and accuracy is near 0%.
+
+  **Your Mission:**
+  1.  Analyze `/app/src/gene_finder.py` and the data in `/app/data/`.
+  2.  Diagnose the mathematical flaw causing the failure on long sequences. (Hint: Monitor the magnitude of the probability values during recursion).
+  3.  **Refactor the code** to be numerically stable. You must implement the Viterbi algorithm in **Log-Space**.
+  4.  **Constraint:** You must fix the existing pure-Python implementation. Do NOT replace it with an external library like `hmmlearn`.
+  5.  Save your predictions for the provided input to `/app/output/predictions.txt` as a single string of states (e.g., "EEEEIIII...").
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: bioinformatics
+tags:
+  - algorithms
+  - numerical-stability
+  - hidden-markov-model
+  - debugging
+  - dynamic-programming
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 30
+junior_time_estimate_min: 90
