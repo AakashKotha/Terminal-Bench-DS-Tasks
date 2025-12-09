@@ -1,0 +1,37 @@
+instruction: |-
+  You are an Audio ML Engineer building a "Glass Break Detector" for home security systems.
+  
+  **The Situation:**
+  You have trained a classifier (`/app/src/train_model.py`) that detects the sound of breaking glass with **99% accuracy** on your validation set.
+  However, when deployed to the actual IoT hardware (which uses cheaper microphones), the model fails completely (Accuracy ~50%, random guess).
+
+  **The Data:**
+  - `/app/data/train/`: High-quality recordings from the lab.
+  - `/app/data/iot_device/`: Real-world recordings from the device.
+  
+  **Your Mission:**
+  1.  **Diagnose:** Compare the signal properties of the lab data vs. the IoT data. Why does a model trained on one fail on the other, even though the "sounds" (human perception) are identical?
+  2.  **Fix the Pipeline:** Modify `/app/src/train_model.py`. You must ensure the feature extraction (Spectrogram/FFT) is **invariant** to the hardware differences.
+  3.  **Validate:** The script is pre-configured to train on Lab Data and test on IoT Data. 
+      - Current Status: Fails (Accuracy < 0.6).
+      - Success Criteria: **Accuracy > 0.90** on the IoT test set.
+  4.  **Artifact:** The script must save the successful model to `/app/models/glass_detector.pkl`.
+
+  **Hint:** In Digital Signal Processing (DSP), the "meaning" of an array index depends on the clock speed.
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: signal-processing
+tags:
+  - audio
+  - dsp
+  - scipy
+  - fft
+  - physics-informed-ml
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 25
+junior_time_estimate_min: 90
