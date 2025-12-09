@@ -1,0 +1,47 @@
+instruction: |-
+  You are a Fraud Analyst at an Ad-Tech company.
+  We have detected a sophisticated "Click Farm" attack on our landing page.
+  
+  **The Situation:**
+  The attackers are sophisticated. They do NOT spam. Their click-rates match normal user behavior perfectly, so standard "Rate Limiting" has failed.
+  
+  **Your Mission:**
+  Analyze the raw session logs in `/app/data/session_logs.jsonl` to identify and filter out the bot traffic.
+  
+  **Data Structure:**
+  Each line represents a user session containing a sequence of events:
+  - `session_id`: Unique identifier.
+  - `events`: List of clicks, each with:
+    - `timestamp`: Unix time (float).
+    - `x`, `y`: Screen coordinates of the click (0-1920, 0-1080).
+  
+  **Forensic Clues:**
+  1.  **Behavioral Naturalism:** Real humans do not click like metronomes. Real humans do not click randomly in empty white space; they aim for buttons.
+  2.  **The Traps:** - Bots might have the same *average* number of clicks as humans.
+      - Bots might have the same *average* session duration as humans.
+      - You must look deeper into the **distribution** of their actions (Inter-arrival times, Spatial variance).
+  
+  **Deliverable:**
+  1.  Create a filtered dataset containing **ONLY the legitimate human sessions**.
+  2.  Save it to `/app/output/clean_sessions.parquet`.
+  3.  The schema must match the input data (flattened or nested is fine, as long as `session_id` is preserved).
+
+  **Constraints:**
+  - Precision matters. Do not ban legitimate users just because they clicked fast once. Look for statistical anomalies across the entire session.
+
+author_name: Gemini Benchmarker
+author_email: benchmark@example.com
+difficulty: hard
+category: cybersecurity
+tags:
+  - fraud-detection
+  - statistics
+  - behavioral-analytics
+  - json
+  - distributions
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 25
+junior_time_estimate_min: 90
