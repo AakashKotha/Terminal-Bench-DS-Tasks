@@ -1,0 +1,38 @@
+instruction: |-
+  You are an ML Systems Engineer optimizing a custom Vector Search Engine used for a RAG (Retrieval Augmented Generation) pipeline.
+
+  **The Incident:**
+  Users are complaining that the search results are "garbage". Queries for specific technical terms are returning completely unrelated, lengthy "spam" documents instead of the correct technical documentation.
+
+  **System Architecture:**
+  - The core search logic is a custom Python implementation located at `/app/src/engine.py`.
+  - It loads a database of 10,000 document embeddings from `/app/data/embeddings.npz`.
+  - It computes the **Nearest Neighbors** for a set of test queries.
+
+  **Your Mission:**
+  1.  **Diagnose:** Run the search script `/app/src/engine.py`. It currently prints a "Recall@10" metric which is effectively **0.0%**.
+  2.  **Investigate:** Analyze the relationship between the *scores* of the retrieved items and their *vector properties* (e.g., magnitude/norm). You will find that "loud" (high-magnitude) vectors are drowning out the "correct" signals.
+  3.  **Fix:** Modify `/app/src/engine.py` to correct the mathematical flaw in the similarity metric. You must ensure the search effectively implements **Cosine Similarity**, not just raw Dot Product.
+  4.  **Verify:** The script must achieve a **Recall@10 > 0.95**.
+  5.  **Output:** The fixed script will automatically save the correct IDs to `/app/output/results.json`.
+
+  **Constraints:**
+  - You cannot change the input data (`embeddings.npz`). You must handle the normalization at runtime.
+  - You must stick to `numpy` for vector operations.
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: machine-learning
+tags:
+  - vector-search
+  - rag
+  - linear-algebra
+  - numpy
+  - debugging
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 90
