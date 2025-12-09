@@ -1,0 +1,35 @@
+instruction: |-
+  You are a Senior ML Engineer at a streaming platform.
+  The current recommendation engine (`/app/src/recommend.py`) uses Matrix Factorization (SVD) to generate movie suggestions.
+  
+  **The Problem:**
+  While the model has high accuracy, users are complaining about "The Harry Potter Effect"—everyone sees the same 10 popular movies, regardless of their niche tastes. The recommendations lack **Diversity** and **Catalog Coverage**.
+
+  **Your Mission:**
+  Modify `/app/src/recommend.py` to implement a **Diversity Re-Ranking** strategy. You must alter the selection logic to surface niche items while maintaining relevance.
+
+  **Constraints & Success Criteria:**
+  Run your modified script to generate `/app/output/recommendations.json`. The test harness will evaluate it against two conflicting metrics:
+  1.  **Catalog Coverage:** Must be **> 15.0%** (Currently ~2%).
+      - *Definition:* The percentage of unique items in the catalog that appear at least once in any user's top-10 recommendations.
+  2.  **NDCG@10 (Relevance):** Must be **> 0.10**.
+      - *Definition:* Normalized Discounted Cumulative Gain. You cannot simply recommend random obscure items; they must still be somewhat relevant to the user.
+
+  **Hint:** Look into "Maximal Marginal Relevance (MMR)" or "Popularity Penalty" techniques. Purely sorting by score will fail.
+
+author_name: Gemini Benchmarker
+author_email: benchmark@example.com
+difficulty: hard
+category: machine-learning
+tags:
+  - recommender-systems
+  - optimization
+  - diversity
+  - svd
+  - algorithmic-design
+parser_name: pytest
+max_agent_timeout_sec: 900.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 30
+junior_time_estimate_min: 90
