@@ -17,8 +17,8 @@ instruction: |-
   3.  **Verify:** The script will verify a test case and save the corrected dataset to `/app/output/processed_data.pt`.
   4.  The final artifact must contain the tensor dict with keys `input_ids` and `labels`.
 
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: nlp
 tags:

@@ -24,8 +24,8 @@ instruction: |-
   - Columns: `timestamp` (datetime64[ns]), `price` (float), `volume` (float).
   - Index: `timestamp`.
 
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: machine-learning
 tags:

@@ -29,8 +29,8 @@ instruction: |-
   **Constraints:**
   - Precision matters. Do not ban legitimate users just because they clicked fast once. Look for statistical anomalies across the entire session.
 
-author_name: Gemini Benchmarker
-author_email: benchmark@example.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: cybersecurity
 tags:

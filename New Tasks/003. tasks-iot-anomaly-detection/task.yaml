@@ -33,8 +33,8 @@ instruction: |-
   ]
 
   You may install any necessary Python packages (like pandas, numpy, etc.) to complete this complex task. The `sqlite3` command-line tool is also available.
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: data-science
 tags:

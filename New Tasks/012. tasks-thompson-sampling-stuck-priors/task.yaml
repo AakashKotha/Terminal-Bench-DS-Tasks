@@ -17,8 +17,8 @@ instruction: |-
   -   Do not change the `update` or `select_arm` logic; the core algorithm is correct. Only the *initialization* is statistically flawed.
   -   Do not change the simulation parameters (ground truth CTRs) in `simulation.py`.
 
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: machine-learning
 tags:

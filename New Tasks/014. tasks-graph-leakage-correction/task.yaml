@@ -19,8 +19,8 @@ instruction: |-
   - You must use `torch`.
   - Do not change the random seed or the dataset generation logic (we need the same ground truth for validation).
 
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: machine-learning
 tags:

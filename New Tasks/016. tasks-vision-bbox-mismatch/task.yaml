@@ -22,8 +22,8 @@ instruction: |-
   - Use PyTorch operations or standard Python math.
   - Do not resize the images; just handle the coordinate math.
 
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: computer-vision
 tags:

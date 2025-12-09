@@ -12,8 +12,8 @@ instruction: |-
   4.  **Constraint:** You must fix the existing pure-Python implementation. Do NOT replace it with an external library like `hmmlearn`.
   5.  Save your predictions for the provided input to `/app/output/predictions.txt` as a single string of states (e.g., "EEEEIIII...").
 
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: bioinformatics
 tags:

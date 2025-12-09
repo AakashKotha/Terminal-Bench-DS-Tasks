@@ -20,8 +20,8 @@ instruction: |-
   - You cannot change the input data (`embeddings.npz`). You must handle the normalization at runtime.
   - You must stick to `numpy` for vector operations.
 
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: machine-learning
 tags:

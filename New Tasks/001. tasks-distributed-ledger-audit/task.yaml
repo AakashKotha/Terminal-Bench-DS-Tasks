@@ -23,8 +23,8 @@ instruction: |-
      - `transaction_count` is the number of valid (non-dropped) transactions contributing to the balance.
      - Rows must be sorted by `account_id` ascending.
 
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: data-engineering
 tags:

@@ -16,8 +16,8 @@ instruction: |-
   - You cannot simply "delete" client #7 (or whichever you think is bad) by hardcoding. Your solution must be algorithmic and handle *any* single outlier distribution.
   - You must keep the core Federated Learning loop (Simulated) intact.
 
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: federated-learning
 tags:

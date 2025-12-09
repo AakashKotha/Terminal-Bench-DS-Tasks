@@ -14,8 +14,8 @@ instruction: |-
   4.  **Verify:** The fixed script must run for 5 epochs without ever producing `NaN` and achieve a final Loss < 0.5.
   5.  **Artifact:** The script automatically saves the model to `/app/models/stable_rnn.pt`.
 
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: deep-learning
 tags:

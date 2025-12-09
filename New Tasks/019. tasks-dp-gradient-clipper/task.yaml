@@ -18,8 +18,8 @@ instruction: |-
   3.  **Verify:** Rerun `/app/src/audit_privacy.py`. The "Canary Influence" metric must drop below **0.1**.
   4.  **Artifact:** The audit script will automatically save the passed verification token to `/app/output/token.json`.
 
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: privacy-preserving-ml
 tags:

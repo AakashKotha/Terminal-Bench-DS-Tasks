@@ -17,8 +17,8 @@ instruction: |-
 
   **Hint:** Look into "Maximal Marginal Relevance (MMR)" or "Popularity Penalty" techniques. Purely sorting by score will fail.
 
-author_name: Aakash Kotha
-author_email: kothavvsaakash@gmail.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: machine-learning
 tags:
