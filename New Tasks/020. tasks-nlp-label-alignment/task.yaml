@@ -1,0 +1,35 @@
+instruction: |-
+  You are an NLP Engineer preparing a dataset for fine-tuning BERT on a Named Entity Recognition (NER) task.
+  
+  **The Problem:**
+  Your preprocessing script (`/app/src/processor.py`) generates label IDs that are misaligned with the tokens.
+  When we inspect the processed data, we see two critical issues:
+  1.  **Offset Error:** The labels seem shifted. The entity "Google" at the start of a sentence is not getting labeled, but the token *after* it is.
+  2.  **Subword Fragmentation:** Complex words like "Bioinformatics" (which split into multiple tokens) are being labeled as multiple separate entities (`B-ORG`, `B-ORG`...) instead of one entity.
+  
+  **Your Mission:**
+  1.  **Diagnose:** Run `/app/src/processor.py`. It prints a debug view of "Tokens vs Labels". Notice the misalignment caused by the `[CLS]` token and the incorrect subword tagging.
+  2.  **Fix:** Modify the `align_labels` function in `/app/src/processor.py`.
+      - Use the `word_ids()` method from the tokenizer output to align character labels to tokens.
+      - **Rule 1:** The `[CLS]` and `[SEP]` tokens must have label ID `-100`.
+      - **Rule 2:** For a word split into multiple subwords, only the **first** subword gets the entity label (e.g., `1` for B-ORG).
+      - **Rule 3:** All subsequent subwords of that same word must be labeled `-100` (to be ignored by the loss function).
+  3.  **Verify:** The script will verify a test case and save the corrected dataset to `/app/output/processed_data.pt`.
+  4.  The final artifact must contain the tensor dict with keys `input_ids` and `labels`.
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: nlp
+tags:
+  - huggingface
+  - bert
+  - tokenization
+  - ner
+  - data-cleaning
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 25
+junior_time_estimate_min: 90
