@@ -1,0 +1,34 @@
+instruction: |-
+  You are an AI Security Engineer securing a Federated Learning (FL) system.
+  The system (`/app/src/fl_server.py`) trains a linear classifier by aggregating model updates from 10 remote clients.
+
+  **The Incident:**
+  We are under a **Model Poisoning Attack**. The global model's accuracy is stuck near 0%, even though most clients are honest. We suspect one of the participating clients is malicious and sending corrupted gradients to sabotage the training.
+
+  **Your Mission:**
+  1.  **Diagnose:** Run `/app/src/fl_server.py`. Observe the validation accuracy across rounds. It effectively random guesses.
+  2.  **Audit:** Examine the `aggregate_updates` function in `fl_server.py`.
+  3.  **Fix:** The current aggregation strategy (Mean/Average) is vulnerable to outliers. Implement a **Robust Aggregation** algorithm (e.g., Coordinate-wise Median, Trimmed Mean, or Krum) that is resilient to at least 1 malicious actor out of 10.
+  4.  **Verify:** The fixed script must achieve a Validation Accuracy of **> 90%** within 20 rounds.
+  5.  **Artifact:** The script will automatically save the final model weights to `/app/models/global_model.npz`.
+
+  **Constraints:**
+  - You cannot simply "delete" client #7 (or whichever you think is bad) by hardcoding. Your solution must be algorithmic and handle *any* single outlier distribution.
+  - You must keep the core Federated Learning loop (Simulated) intact.
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: federated-learning
+tags:
+  - security
+  - robust-statistics
+  - numpy
+  - distributed-ml
+  - debugging
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 25
+junior_time_estimate_min: 90
