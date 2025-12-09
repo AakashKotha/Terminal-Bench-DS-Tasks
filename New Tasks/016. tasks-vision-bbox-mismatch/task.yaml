@@ -1,0 +1,40 @@
+instruction: |-
+  You are a Computer Vision Engineer preparing a dataset for a YOLOv8 training run.
+  
+  **The Problem:**
+  The training pipeline (`/app/src/debug_training.py`) is failing validation. The loss is unreasonably high, and the visualization shows that the Ground Truth bounding boxes are completely off-screen or malformed.
+  
+  **System context:**
+  - Raw labels are stored in `/app/data/labels.csv`.
+  - Images are 1280x720 (Width x Height).
+  - The model expects inputs to follow the **YOLO Format**: `[class_id, x_center, y_center, width, height]`.
+  - Crucially, YOLO format requires **Normalized Coordinates** (values between 0.0 and 1.0).
+
+  **Your Mission:**
+  1.  **Diagnose:** Run `/app/src/debug_training.py`. It calculates the Intersection over Union (IoU) between a dummy "perfect" YOLO prediction and your dataset's output. Currently, it yields **IoU = 0.0**.
+  2.  **Fix:** Modify the `CustomDataset` class in `/app/src/dataset.py`.
+      - You must transform the raw CSV coordinates (which appear to be `x_min, y_min, x_max, y_max` in absolute pixels) into the target format.
+      - Ensure you divide by the correct image dimensions to normalize.
+  3.  **Verify:** Rerunning `/app/src/debug_training.py` must yield **IoU > 0.95**.
+  4.  **Artifact:** The corrected script MUST generate a validation file at `/app/output/validated_batch.pt` containing a batch of correctly transformed tensors.
+
+  **Constraints:**
+  - Use PyTorch operations or standard Python math.
+  - Do not resize the images; just handle the coordinate math.
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: computer-vision
+tags:
+  - pytorch
+  - object-detection
+  - data-preprocessing
+  - geometry
+  - debugging
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 25
+junior_time_estimate_min: 90
