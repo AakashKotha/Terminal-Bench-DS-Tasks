@@ -1,0 +1,37 @@
+instruction: |-
+  You are an RL Research Scientist debugging a Warehouse Robot agent.
+  The agent (`/app/src/train.py`) uses Q-Learning to learn how to navigate a grid, pick up a package, and deliver it.
+
+  **The Anomaly:**
+  The training logs show massive cumulative rewards (e.g., +5000 per episode), but the "Success Rate" remains at **0%**. The robot is not finishing the task.
+
+  **Your Mission:**
+  1.  **Diagnose:** Run `/app/src/train.py`. Watch the "Avg Reward" vs "Success Rate".
+      - The robot has found a "Loop" or "Reward Hack" in the environment definition (`/app/src/grid_env.py`).
+      - It is exploiting a local reward instead of solving the global objective.
+  2.  **Fix:** Modify `/app/src/grid_env.py`.
+      - Locate the `calculate_reward` function.
+      - Alter the incentives to prevent the hacking behavior.
+      - **Constraint:** You must ensure the robot actually reaches the goal (Terminal State) in the shortest path.
+  3.  **Validate:** Retrain the agent using the fixed environment.
+      - Success Criteria: **Success Rate > 95%** over the last 100 episodes.
+      - The script must save the trained Q-table to `/app/models/q_table.npy`.
+
+  **Hint:** If you give a robot a cookie for washing a dish, and it can wash the same dish twice...
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: reinforcement-learning
+tags:
+  - rl
+  - alignment
+  - reward-hacking
+  - q-learning
+  - simulation
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 25
+junior_time_estimate_min: 90
