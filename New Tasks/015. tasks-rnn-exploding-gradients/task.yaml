@@ -1,0 +1,32 @@
+instruction: |-
+  You are a Deep Learning Research Engineer working on a Sequence Prediction model.
+  
+  **The Incident:**
+  We are training a deep Vanilla RNN (`/app/src/train.py`) to predict sensor data trends.
+  However, the training is extremely unstable. The loss value behaves normally for the first few batches, but suddenly spikes to `Infinity` or `NaN` (Not a Number), causing the training to crash or produce garbage weights.
+
+  **Your Mission:**
+  1.  **Diagnose:** Run `/app/src/train.py` to reproduce the explosion. Observe the logs.
+  2.  **Fix:** Modify `/app/src/train.py` to stabilize the training dynamics.
+      - You must identify the root cause (Hint: It involves the magnitude of the backward pass vectors in deep RNNs).
+      - You must implement a mechanism to **cap** or **constrain** the updates during backpropagation.
+  3.  **Constraint:** You are **strictly forbidden** from lowering the Learning Rate (`lr=0.01`) or changing the Model Architecture (Layers/Hidden Size). We need this specific capacity and convergence speed.
+  4.  **Verify:** The fixed script must run for 5 epochs without ever producing `NaN` and achieve a final Loss < 0.5.
+  5.  **Artifact:** The script automatically saves the model to `/app/models/stable_rnn.pt`.
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: deep-learning
+tags:
+  - pytorch
+  - rnn
+  - debugging
+  - numerical-stability
+  - gradient-clipping
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 60
