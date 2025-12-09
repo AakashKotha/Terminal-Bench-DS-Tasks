@@ -1,0 +1,36 @@
+instruction: |-
+  You are a Privacy Engineer at a healthcare AI startup.
+  We are training a model on sensitive patient records using **DP-SGD** (Differentially Private Stochastic Gradient Descent).
+
+  **The Incident:**
+  An external security auditor has rejected your implementation (`/app/src/sanitizer.py`).
+  Their report states: *"The current gradient clipping mechanism allows a single outlier patient to disproportionately influence the model update direction, violating the $\Delta f$ (Sensitivity) bound required for Differential Privacy."*
+
+  **Your Mission:**
+  1.  **Diagnose:** Run the audit script `/app/src/audit_privacy.py`.
+      - It simulates a "Canary Attack" by injecting one massive gradient (representing a rare patient anomaly) into a batch.
+      - Currently, the attack succeeds: The final aggregated gradient shifts significantly in the direction of the anomaly.
+  2.  **Fix:** Rewrite the `sanitize_gradients` method in `/app/src/sanitizer.py`.
+      - You are currently performing **Batch-Level Clipping** (Averaging then Clipping).
+      - You must implement **Per-Sample Clipping** (Clipping each sample individually, then Averaging).
+      - *Mathematically:* For each gradient $g_i$, calculate $g'_i = g_i / \max(1, \frac{\|g_i\|_2}{C})$. Then return $\frac{1}{N} \sum g'_i$.
+      - Ensure you handle the dimensions correctly (input is `[batch_size, num_parameters]`).
+  3.  **Verify:** Rerun `/app/src/audit_privacy.py`. The "Canary Influence" metric must drop below **0.1**.
+  4.  **Artifact:** The audit script will automatically save the passed verification token to `/app/output/token.json`.
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: privacy-preserving-ml
+tags:
+  - differential-privacy
+  - security
+  - numpy
+  - math
+  - debugging
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 25
+junior_time_estimate_min: 90
