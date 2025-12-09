@@ -1,0 +1,35 @@
+instruction: |-
+  You are a Data Scientist at a digital advertising firm.
+  We recently deployed a **Thompson Sampling** agent to optimize ad selection for a new campaign.
+  
+  **The Incident:**
+  We know for a fact that "Ad Variant C" is the best performer (approx 12% CTR), while others are around 4-5%. 
+  However, the agent (`/app/src/bandit.py`) is failing to converge. After 5,000 impressions, it is still selecting ads almost randomly, wasting budget on bad variations.
+
+  **Your Mission:**
+  1.  **Diagnose:** Run the simulation script `/app/src/simulation.py`. You will see that the "Optimal Arm Selection Rate" stays low (near 20%), meaning it's not learning.
+  2.  **Investigate:** Inspect the `ThompsonSampler` class in `/app/src/bandit.py`. Look specifically at how the **Beta Distribution Priors** are initialized.
+  3.  **Fix:** Modify `bandit.py` to fix the **Initialization Logic**. The priors are likely too "strong" (high confidence), causing the model to ignore new data (lack of plasticity). You must reset them to be **Uninformative** (Uniform) or **Weak** priors.
+  4.  **Verify:** Rerunning the simulation must yield an "Optimal Arm Selection Rate" of **> 90%** within the same 5,000 steps.
+  5.  **Output:** The fixed script will generate a metrics file at `/app/output/performance.json`.
+
+  **Constraints:**
+  -   Do not change the `update` or `select_arm` logic; the core algorithm is correct. Only the *initialization* is statistically flawed.
+  -   Do not change the simulation parameters (ground truth CTRs) in `simulation.py`.
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: machine-learning
+tags:
+  - reinforcement-learning
+  - bayesian-statistics
+  - ab-testing
+  - debugging
+  - python
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 60
