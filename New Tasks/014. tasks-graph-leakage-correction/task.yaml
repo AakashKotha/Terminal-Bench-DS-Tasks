@@ -1,0 +1,37 @@
+instruction: |-
+  You are an AI Researcher auditing a Graph Neural Network (GNN) designed to classify fraudulent transactions in a crypto-currency network.
+
+  **The Anomaly:**
+  The current training script (`/app/src/train_gnn.py`) reports a **Test Accuracy of 1.00 (100%)**. 
+  In our domain, this is statistically impossible. We suspect **Data Leakage** in the message-passing mechanism. The model is likely "peeking" at the labels of Test nodes via the edges connecting them to Training nodes.
+
+  **Your Mission:**
+  1.  **Audit:** Analyze `/app/src/train_gnn.py`. Identify exactly where the leakage occurs in the construction of the Adjacency Matrix.
+  2.  **Fix:** Rewrite the data loading and training logic. You must ensure that the **Adjacency Matrix** used during the model's forward pass ($A$) contains **ONLY** edges present in the Training Set.
+      - *Note:* The Test set nodes should still be in the matrix (to be predicted), but they should be effectively isolated (or only connected to known training nodes in a strictly inductive setting, but for this task, assume we just remove edges *between* test nodes or *from* test nodes to any others).
+      - *Simplest Fix:* Ensure `adj` is built solely from `train_edges`.
+  3.  **Validate:** Retrain the model. The new Test Accuracy should drop to a realistic value (between **0.65 and 0.85**).
+  4.  **Output:** - Save the corrected script to `/app/src/train_gnn.py`.
+      - Save your "Clean" Adjacency Matrix (the `torch.Tensor` used for the final evaluation) to `/app/output/clean_adj.pt`.
+      - Save the final metrics to `/app/output/metrics.json` (`{"test_acc": float}`).
+
+  **Constraints:**
+  - You must use `torch`.
+  - Do not change the random seed or the dataset generation logic (we need the same ground truth for validation).
+
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
+difficulty: hard
+category: machine-learning
+tags:
+  - graph-neural-networks
+  - pytorch
+  - data-leakage
+  - debugging
+  - matrix-algebra
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 30
+junior_time_estimate_min: 90
