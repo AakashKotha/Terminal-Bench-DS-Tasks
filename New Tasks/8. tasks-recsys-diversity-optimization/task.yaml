@@ -17,8 +17,8 @@ instruction: |-
 
   **Hint:** Look into "Maximal Marginal Relevance (MMR)" or "Popularity Penalty" techniques. Purely sorting by score will fail.
 
-author_name: Gemini Benchmarker
-author_email: benchmark@example.com
+author_name: Aakash Kotha
+author_email: kothavvsaakash@gmail.com
 difficulty: hard
 category: machine-learning
 tags:
