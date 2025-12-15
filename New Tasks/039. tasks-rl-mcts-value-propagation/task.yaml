@@ -1,0 +1,36 @@
+instruction: |-
+  You are an AI Research Engineer working on a data generation pipeline for training reasoning models.
+
+  **The System:**
+  We use a Monte Carlo Tree Search (MCTS) agent to generate high-quality gameplay traces for the game of Connect 4. The game logic is in `/app/task-deps/game.py` and the MCTS implementation is in `/app/task-deps/mcts.py`.
+
+  **The Bug:**
+  Despite using a powerful search algorithm, our MCTS agent is performing terribly. It is currently losing to or drawing with a pure Random Agent, effectively providing no signal for our training data.
+  The Senior Researcher suspects the issue lies in the **Backpropagation** phase of the MCTS algorithm. In a two-player zero-sum game (like Connect 4), a win for Player 1 is a loss for Player 2. The current implementation might be treating every node as if it belongs to the same maximizing player, effectively reinforcing moves that help the opponent win.
+
+  **Your Mission:**
+  1.  **Analyze:** Review `/app/task-deps/mcts.py`, specifically the `backpropagate` method and how it interacts with the `search` loop.
+  2.  **Diagnose:** Trace how the `reward` (result of the simulation) is applied to the nodes traversing up from the leaf to the root.
+  3.  **Fix:** Correct the logic in `/app/task-deps/mcts.py`. You must ensure that the value stored in a node correctly reflects the desirability of that state *for the player who just moved to get there*, or consistently from the perspective of the root player, handling the sign flip required for zero-sum games.
+  4.  **Constraint:** You must keep the core MCTS structure (Selection -> Expansion -> Simulation -> Backpropagation).
+  5.  **Deliverable:** Save the fixed MCTS code to `/app/solution.py`.
+
+  **Verification:**
+  Run `run-tests.sh`. The test suite pits your fixed MCTS agent against a Random Agent for 20 games. Your agent must win at least 18/20 games (90% win rate) to pass.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: reinforcement-learning
+tags:
+  - python
+  - mcts
+  - algorithms
+  - game-theory
+  - debugging
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 25
+junior_time_estimate_min: 90
