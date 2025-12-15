@@ -1,0 +1,30 @@
+instruction: |-
+  You are an ML Systems Engineer working on a distributed training framework.
+
+  **The Incident:**
+  We are simulating a distributed training job using PyTorch (`/app/task-deps/train.py`) with 4 worker processes.
+  The pipeline is designed to run for 5 epochs. However, the engineering team reports that the process frequently **hangs indefinitely** (deadlocks) in the middle of training without throwing an error.
+
+  **Your Mission:**
+  1.  **Diagnose:** Run `/app/task-deps/train.py`. You will observe it hanging after a random number of steps. You may need to `Ctrl+C` to stop it.
+  2.  **Fix:** Identify the **Synchronization Bug** in the training loop. The issue stems from an "optimization" that attempts to save bandwidth but violates distributed computing principles.
+  3.  **Constraint:** You must preserve the logic that detects "sparse/empty updates" (i.e., we still want to know when gradients are zero), but you must ensure the distributed collective operations (like `all_reduce`) are **never** skipped by only a subset of workers. All workers must participate in the synchronization.
+  4.  **Verify:** The fixed script must run all 5 epochs to completion for all 4 workers without hanging.
+  5.  **Deliverable:** Save the corrected script to `/app/solution.py`.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: ml-systems
+tags:
+  - pytorch
+  - distributed-computing
+  - debugging
+  - deadlock
+  - multiprocessing
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 90

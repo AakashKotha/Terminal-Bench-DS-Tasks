@@ -1,0 +1,11 @@
+services:
+  agent-sandbox:
+    build: .
+    image: terminal-bench/tasks-distributed-deadlock:latest
+    container_name: task_distributed_deadlock
+    working_dir: /app
+    volumes:
+      - .:/app
+    # Shared memory size increase is often required for PyTorch Multiprocessing
+    shm_size: '2gb'
+    command: tail -f /dev/null
