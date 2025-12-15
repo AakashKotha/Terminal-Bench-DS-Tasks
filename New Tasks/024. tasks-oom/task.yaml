@@ -1,0 +1,31 @@
+instruction: |-
+  You are an ML Ops Engineer debugging a training pipeline.
+  
+  **The Incident:**
+  We are trying to train a simple PyTorch model (`/app/task-deps/train.py`), but the process keeps getting killed by the OS (Out of Memory) after a few epochs, even though the dataset is tiny and the model is small.
+  
+  **Your Mission:**
+  1.  **Diagnose:** Run `/app/task-deps/train.py`. Note how the memory usage grows linearly with every batch/epoch.
+  2.  **Fix:** Identify the specific line of code causing the **Memory Leak** (Graph Accumulation) and fix it.
+  3.  **Constraint:** You must retain the functionality of printing/logging the cumulative loss. Do not simply delete the logging logic.
+  4.  **Verify:** The fixed script should run for 1000+ epochs without any significant increase in RAM usage.
+  5.  **Deliverable:** Save the fixed script to `/app/solution.py`.
+
+  **Hint:** In PyTorch, keeping a reference to a Tensor keeps its entire history (gradients) alive.
+
+author_name: Gemini Benchmarker
+author_email: benchmark@example.com
+difficulty: hard
+category: ml-systems
+tags:
+  - pytorch
+  - memory-management
+  - debugging
+  - oom
+  - optimization
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 15
+junior_time_estimate_min: 60
