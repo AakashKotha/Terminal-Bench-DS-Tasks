@@ -1,0 +1,8 @@
+version: "3"
+services:
+  agent-environment:
+    build: .
+    volumes:
+      - .:/app
+    command: /bin/bash
+    tty: true

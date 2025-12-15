@@ -1,0 +1,40 @@
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+category: Machine Learning Operations
+difficulty: 4
+estimated_duration_sec: 1800
+expert_time_estimate_min: 15
+junior_time_estimate_min: 45
+instruction: |
+  You are tasked with tuning the hyperparameters of a proprietary model training script located at `task_deps/mock_trainer.py`.
+  
+  The script accepts the following arguments:
+  - `--optimizer`: Categorical. Options: ["sgd", "adam", "rmsprop"].
+  - `--learning_rate`: Float. Range: [1e-5, 0.1].
+  - `--layers`: Integer. Range: [1, 5].
+  
+  Example usage:
+  `python3 task_deps/mock_trainer.py --optimizer sgd --learning_rate 0.01 --layers 3`
+  
+  The script outputs the final validation accuracy to STDOUT (e.g., `0.854`) and appends the run details to `usage_log.txt`.
+  
+  **Your Goal:**
+  Create a python script named `solution.py` in the root directory. When run, `solution.py` must:
+  1. Iteratively invoke `task_deps/mock_trainer.py` with different parameters.
+  2. Find a configuration that results in an accuracy **greater than 0.95**.
+  3. Save the best configuration found to a JSON file named `best_config.json` in the format:
+     `{"optimizer": "str", "learning_rate": float, "layers": int, "accuracy": float}`
+  
+  **Constraints:**
+  - You typically have a budget of 50 calls to `mock_trainer.py`. The test suite will fail if the usage log shows excessive calls.
+  - You may install standard optimization libraries (like `optuna`, `hyperopt`, or `scikit-optimize`) using pip if you wish, or implement a search algorithm from scratch.
+  
+parser_name: pytest
+tags:
+  - machine-learning
+  - optimization
+  - system-interaction
+  - scripting
+max_agent_timeout_sec: 600
+max_test_timeout_sec: 60
+run_tests_in_same_shell: true
