@@ -1,0 +1,41 @@
+instruction: |-
+  You are a Computer Vision Engineer at a medical imaging startup.
+  We are training a U-Net model to segment tumors from MRI scans. The training data pipeline is defined in `/app/src/dataset.py`.
+
+  **The Incident:**
+  The model loss is not converging, and the Intersection over Union (IoU) metric on the **training set** stays extremely low (~0.2). This suggests the model cannot even overfit a small batch of data. We suspect the data is being corrupted during the loading process.
+
+  **Your Mission:**
+  1.  **Diagnose:** Run the validation script `/app/src/validate_alignment.py`.
+      - This script generates synthetic samples (where the "tumor" is a simple white square) and checks if the loaded Mask aligns with the loaded Image.
+      - Currently, it reports an **Alignment Failure** (IoU is low).
+  2.  **Investigate:** Analyze `/app/src/dataset.py`. Look closely at how data augmentation (RandomCrop, RandomHorizontalFlip) is applied to the image and the mask.
+  3.  **Fix:** Modify `dataset.py` to ensure **Geometric Consistency**.
+      - When an augmentation (like a random crop or flip) is applied to the Image, the **exact same** transformation parameters must be applied to the Mask.
+      - Currently, the transforms are independent random events.
+      - You must rewrite the `__getitem__` logic or the transform definitions to synchronize them.
+  4.  **Verify:** Rerun `/app/src/validate_alignment.py`.
+      - Success Criteria: Average IoU must be **1.0** (Perfect alignment).
+  5.  **Artifact:** The validation script will generate a success token at `/app/output/status.json`.
+
+  **Constraints:**
+  - You can modify `dataset.py` as much as needed.
+  - Do not modify the validation script logic or the synthetic data generator properties.
+  - You must still perform the augmentations (Crop and Flip); you cannot simply remove them to solve the alignment.
+
+author_name: Gemini Benchmarker
+author_email: benchmark@example.com
+difficulty: hard
+category: computer-vision
+tags:
+  - pytorch
+  - torchvision
+  - data-augmentation
+  - debugging
+  - pipeline-integrity
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 60
