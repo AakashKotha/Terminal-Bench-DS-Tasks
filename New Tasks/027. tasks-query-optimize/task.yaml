@@ -1,0 +1,42 @@
+instruction: |-
+  You are a Backend Engineer optimizing a critical Analytics Dashboard.
+  
+  **The Problem:**
+  The "Daily Active US Users" widget is timing out. The backend executes the SQL query found in `/app/task-deps/my-sql-query.sql`.
+  Currently, this query takes **> 5 seconds** to run on our SQLite database (`/app/db/analytics.db`). We need it to run in **under 200 milliseconds**.
+  
+  **Database Schema:**
+  - `users` (10,000 rows): `id` (INT), `email` (TEXT), `country` (TEXT), `signup_date` (TEXT)
+  - `logs` (1,000,000 rows): `log_id` (INT), `user_id` (INT), `event_type` (TEXT), `timestamp` (DATETIME ISO8601)
+  
+  **Your Mission:**
+  1.  Analyze the query in `/app/task-deps/my-sql-query.sql`.
+  2.  Identify performance bottlenecks (Missing indices? Inefficient filtering?).
+  3.  **Optimize the System:**
+      - You may **Rewrite the Query** to be more efficient (e.g., SARGable predicates). Save the optimized query to `/app/solution.sql`.
+      - You may **Create Indices** on the database to speed up lookups. Write the SQL commands to create these indices in `/app/create_indices.sql` and execute them against the DB.
+  
+  **Deliverables:**
+  1.  `/app/solution.sql`: The optimized `SELECT` query.
+  2.  The database (`/app/db/analytics.db`) must have the necessary indices applied.
+  
+  **Success Criteria:**
+  - The query in `/app/solution.sql` returns the **exact same count** as the original.
+  - The execution time is **< 200ms**.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: data-engineering
+tags:
+  - sql
+  - optimization
+  - database
+  - sqlite
+  - indexing
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 15
+junior_time_estimate_min: 60
