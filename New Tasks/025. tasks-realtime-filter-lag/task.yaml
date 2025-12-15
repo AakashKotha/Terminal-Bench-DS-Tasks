@@ -16,8 +16,8 @@ instruction: |-
       - **Low Latency:** When the drone steps up its altitude (Step Response), the filtered signal must reach 50% of the target value within **5 timesteps**. (Currently, heavy smoothing creates huge lag, causing the drone to overshoot).
   3.  **Output:** The script must process `/app/data/sensor_input.csv` and save the smoothed result to `/app/output/smoothed_sensor.csv`.
 
-author_name: Gemini Benchmarker
-author_email: benchmark@example.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: signal-processing
 tags:

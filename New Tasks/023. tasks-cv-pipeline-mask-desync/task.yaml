@@ -23,8 +23,8 @@ instruction: |-
   - Do not modify the validation script logic or the synthetic data generator properties.
   - You must still perform the augmentations (Crop and Flip); you cannot simply remove them to solve the alignment.
 
-author_name: Gemini Benchmarker
-author_email: benchmark@example.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: computer-vision
 tags:

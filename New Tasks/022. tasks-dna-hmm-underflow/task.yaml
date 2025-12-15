@@ -19,8 +19,8 @@ instruction: |-
   **Constraints:**
   - You must implement the logic manually (numpy is allowed). Do not switch to a library like `hmmlearn`. We need to fix *this* custom engine.
 
-author_name: Gemini Benchmarker
-author_email: benchmark@example.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: scientific-computing
 tags:

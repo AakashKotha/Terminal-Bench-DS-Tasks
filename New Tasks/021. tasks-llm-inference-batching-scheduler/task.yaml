@@ -26,8 +26,8 @@ instruction: |-
   **Verification:**
   Run `python tests/test_outputs.py` to grade your solution. It calculates the simulated latency and cost.
 
-author_name: Gemini Benchmarker
-author_email: benchmark@example.com
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
 difficulty: hard
 category: ml-systems
 tags:

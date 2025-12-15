@@ -1,0 +1,44 @@
+instruction: |-
+  You are a Search Engineer at a streaming platform.
+  We use vector embeddings to power our "Related Movies" feature.
+
+  **The Problem:**
+  Users are complaining that the search results are irrelevant. If they search for a specific niche genre (e.g., "documentaries about ants"), the system recommends "Marvel's Avengers" or "Titanic".
+  It seems the search engine is biased towards **popular** movies, ignoring the actual semantic match.
+
+  **Context:**
+  - The script `/app/src/broken_search.py` performs the retrieval.
+  - The embeddings are located in `/app/data/embeddings.npy` (shape: [N_movies, 64]).
+  - The metadata is in `/app/data/metadata.json`.
+  - Our embedding model encodes **Semantic Content** in the vector direction (angle) and **Popularity** in the vector magnitude (length).
+
+  **Your Mission:**
+  1.  **Diagnose:** Run `/app/src/broken_search.py`. Look at the output for the query "Scientific Ant Documentary". Currently, it likely returns unrelated blockbusters.
+  2.  **Fix:** Modify `/app/src/broken_search.py` to fix the retrieval logic.
+      - The goal is to maximize **Semantic Similarity**, ignoring Popularity (Magnitude).
+      - You must modify the `search` function to perform a **Cosine Similarity** search instead of the current raw Dot Product, or normalize the inputs appropriately.
+  3.  **Validate:** The script is pre-configured to run a test query.
+      - **Success Condition:** The Top 3 results must be from the "Nature Documentary" category.
+      - Current Status: Top 3 are likely "Action Blockbusters".
+  4.  **Artifact:** The script must save the IDs of the top 3 matches for the test query to `/app/output/recommendations.json`.
+
+  **Constraints:**
+  - Do not retrain the model or regenerate data.
+  - Use `numpy` for vector operations.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: information-retrieval
+tags:
+  - vector-search
+  - numpy
+  - recommendation-systems
+  - linear-algebra
+  - debugging
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 60
