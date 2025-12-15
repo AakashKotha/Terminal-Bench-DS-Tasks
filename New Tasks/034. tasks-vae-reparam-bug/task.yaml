@@ -1,0 +1,33 @@
+instruction: |-
+  You are a Research Engineer debugging a Generative AI model.
+
+  **The Project:**
+  We are implementing a Variational Autoencoder (VAE) to learn a latent representation of a synthetic dataset. The code is located in `/app/task-deps/vae.py`.
+
+  **The Problem:**
+  The model is training, but the loss plateau is very high, and the generated images look like pure noise (random static) rather than the input shapes. The research lead suspects there is a mathematical error in how we sample from the latent distribution (z).
+
+  **Your Mission:**
+  1.  **Analyze:** Examine the `reparameterize` method in `/app/task-deps/vae.py`.
+  2.  **Diagnose:** The standard VAE reparameterization trick is `z = mu + std * epsilon`. However, our encoder predicts `log_var` (logarithm of variance). Check if the conversion from `log_var` to `std` is mathematically correct.
+  3.  **Fix:** Correct the logic in `/app/task-deps/vae.py`. Ensure gradients can flow correctly through the standard deviation calculation.
+  4.  **Deliverable:** Save the fixed model file to `/app/solution_vae.py`.
+
+  **Verification:**
+  Run `run-tests.sh`. The test suite trains the model for a few steps and asserts that the reconstruction loss drops below a specific threshold, indicating the latent space is working.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: medium
+category: generative-ai
+tags:
+  - pytorch
+  - vae
+  - deep-learning
+  - math-debugging
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 15
+junior_time_estimate_min: 45
