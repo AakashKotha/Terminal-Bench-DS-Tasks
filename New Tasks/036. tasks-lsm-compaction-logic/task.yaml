@@ -1,0 +1,41 @@
+instruction: |-
+  You are a Systems Engineer working on a high-performance Key-Value storage engine.
+
+  **The System:**
+  The project (`/app/task-deps/storage.py`) implements a simplified **LSM-Tree (Log-Structured Merge Tree)**.
+  - Writes go into an in-memory `MemTable`.
+  - When the `MemTable` fills up, it is flushed to an immutable `SSTable` (Sorted String Table) file on disk.
+  - Reads check the `MemTable` first, then the `SSTables` from newest to oldest.
+  - A background process performs **Compaction**: it merges multiple `SSTables` into a single new file to reclaim space and remove overwritten data.
+
+  **The Bug:**
+  Users have reported **Data Resurrection**. They delete a key, verify it's gone, but after the system runs a compaction cycle, the deleted key **reappears** with an old value.
+  
+  **Your Mission:**
+  1.  **Analyze:** Review the `compact` method and the `merge_tables` logic in `/app/task-deps/storage.py`.
+  2.  **Diagnose:** Understanding that an LSM compaction performs a multi-way merge sort.
+      - If a key exists in multiple tables, the version with the **highest timestamp** must win.
+      - If the latest version is a **Tombstone** (a marker indicating deletion), the key should be treated as deleted.
+      - In a "Major Compaction" (merging all files), Tombstones should result in the key being discarded entirely, not exposing the older values underneath.
+  3.  **Fix:** Correct the logic in `merge_tables` to ensure that older values are properly shadowed by newer values (or tombstones) and do not leak into the compacted output.
+  4.  **Deliverable:** Save the fixed storage engine code to `/app/solution.py`.
+
+  **Verification:**
+  Run `run-tests.sh`. The test suite performs a sequence of `put`, `flush`, `delete`, `flush`, `compact`, and `get` operations to verify that deleted data stays deleted.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: database-systems
+tags:
+  - systems-programming
+  - lsm-tree
+  - debugging
+  - algorithms
+  - python
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 25
+junior_time_estimate_min: 90
