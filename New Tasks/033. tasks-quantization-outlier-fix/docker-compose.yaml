@@ -1,0 +1,9 @@
+services:
+  agent-sandbox:
+    build: .
+    image: terminal-bench/tasks-quantization-outlier-fix:latest
+    container_name: task_quant_outlier
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: tail -f /dev/null

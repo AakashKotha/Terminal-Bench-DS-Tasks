@@ -1,0 +1,35 @@
+instruction: |-
+  You are an AI Edge Engineer optimizing a neural network for deployment on an embedded device.
+  
+  **The Problem:**
+  We are using Post-Training Quantization (PTQ) to convert our PyTorch model (`task-deps/model.py`) from Float32 to simulated Int8.
+  The float model achieves ~95% accuracy. However, after running the calibration script (`task-deps/quantizer.py`), the quantized model's accuracy drops to **10% (random guessing)**.
+  
+  **Diagnosis:**
+  The Data Engineering team informed us that the calibration dataset contains occasional "sensor glitches" — extreme outlier values (e.g., 1000.0 instead of the usual -1.0 to 1.0 range).
+  The current quantization logic in `task-deps/quantizer.py` uses a **MinMax** observer strategy. This means the quantization scale is determined by the absolute maximum value observed. Because of the outliers, the scale becomes huge, and the small "useful" signal collapses into a single quantization bin (zero), destroying the model's ability to infer.
+  
+  **Your Mission:**
+  1.  **Analyze:** Examine `task-deps/quantizer.py` to understand how `min_val` and `max_val` are currently calculated in the `update_stats` method.
+  2.  **Fix:** Modify `task-deps/quantizer.py`. Change the calibration strategy from absolute Min/Max to a **Percentile-based** approach (e.g., use the 99.9th percentile of the absolute values to determine the range, clipping the outliers).
+  3.  **Constraint:** You must implement the fix within the `Quantizer` class. You cannot simply delete the outlier data from the dataset generation; the code must be robust enough to handle the dirty data.
+  
+  **Verification:**
+  Run `run-tests.sh` to validate. The test will run the calibration with your fixed logic and evaluate the model. Success is defined as achieving > 90% accuracy on the test set.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: ml-engineering
+tags:
+  - pytorch
+  - quantization
+  - numerical-stability
+  - debugging
+  - edge-ai
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 15
+junior_time_estimate_min: 45
