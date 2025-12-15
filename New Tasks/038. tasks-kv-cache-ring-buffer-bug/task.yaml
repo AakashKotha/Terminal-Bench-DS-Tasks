@@ -1,0 +1,37 @@
+instruction: |-
+  You are an AI Systems Engineer optimizing the inference engine for a Large Language Model.
+
+  **The System:**
+  We typically use a **Key-Value (KV) Cache** to speed up autoregressive generation. To save memory, we implemented a **Ring Buffer (Circular Buffer)** strategy in `/app/task-deps/kv_cache.py`.
+  This allows us to maintain a fixed-size context window. When the buffer is full, new tokens should overwrite the oldest tokens.
+
+  **The Bug:**
+  The QA team reports that the model works perfectly for short sequences. However, **the moment the sequence length exceeds the cache capacity**, the generation degrades into complete gibberish.
+  They suspect that when the buffer wraps around, the `get_view()` method returns the tensors in the wrong order. The Attention mechanism expects keys and values to be sorted chronologically (Oldest -> Newest), but the current implementation seems to be returning them in memory-layout order (which becomes scrambled after a wrap-around).
+
+  **Your Mission:**
+  1.  **Analyze:** Read `/app/task-deps/kv_cache.py`. Understand how `self.buffer` is updated and how `self.pos` tracks the write head.
+  2.  **Diagnose:** Look at the `get_ordered_view` method. It currently returns the raw buffer. If the buffer has wrapped, this is incorrect.
+  3.  **Fix:** Modify `get_ordered_view` in `/app/task-deps/kv_cache.py`. It must construct and return a view of the data that is logically sorted by time (re-arranging the split buffer segments if necessary) so that the last element is the most recent token.
+  4.  **Deliverable:** Save the corrected file to `/app/solution.py` (or modify the original if the test runner allows, but best practice here implies saving a solution file or fixing inplace). The test runner checks the behavior of the installed module. *For this task, modify the file in place or save to `solution.py` and ensure the tests import from there.* (The test harness typically imports the user code).
+
+  **Constraints:**
+  - The solution must work for any valid state of the ring buffer (full or not full).
+  - You must use PyTorch operations (`torch.cat`, `torch.roll`, etc.) for efficiency.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: llm-systems
+tags:
+  - pytorch
+  - llm-inference
+  - data-structures
+  - debugging
+  - algorithms
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 60
