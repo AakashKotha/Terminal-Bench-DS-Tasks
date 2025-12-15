@@ -1,0 +1,44 @@
+instruction: |-
+  You are an ML Systems Engineer at an AI Infrastructure company.
+  We are running a simulated Large Language Model (LLM) Inference API.
+  
+  **The Problem:**
+  Our current batching strategy (`/app/task_file/scripts/baseline_packer.py`) is too aggressive. It waits until a batch is **completely full** (32 requests) before sending it to the GPU.
+  - During low-traffic periods, requests sit in the queue for seconds, violating our SLA (Service Level Agreement).
+  - Users are complaining about high latency.
+
+  **The Goal:**
+  Modify `/app/task_file/scripts/baseline_packer.py` to implement **Time-Aware Batching**.
+  You must ensure that **no request waits in the queue for longer than 50ms** before being processed, even if the batch is not full.
+
+  **Constraints & Scoring:**
+  Run the test suite to evaluate your scheduler. It simulates a stream of 1000 requests.
+  1.  **Latency Constraint:** 99% of requests must have a `Time-in-Queue` < 50ms.
+  2.  **Efficiency Constraint:** The `Average Batch Size` must be **> 4.0**. You cannot simply process requests one-by-one (batch size 1) to solve latency, as that would bankrupt our GPU budget.
+  
+  **Input Data:**
+  - `/app/task_file/input_data/requests_bucket_1.jsonl`: Low QPS traffic (sparse).
+  - `/app/task_file/input_data/requests_bucket_2.jsonl`: Spiky traffic (bursty).
+  
+  **Output:**
+  The script usually writes to stdout. Ensure your modified script generates a valid JSONL output where each line is a list of request IDs representing a batch: `[101, 102, 103]`.
+  
+  **Verification:**
+  Run `python tests/test_outputs.py` to grade your solution. It calculates the simulated latency and cost.
+
+author_name: Gemini Benchmarker
+author_email: benchmark@example.com
+difficulty: hard
+category: ml-systems
+tags:
+  - systems-programming
+  - optimization
+  - algorithms
+  - simulation
+  - python
+parser_name: pytest
+max_agent_timeout_sec: 900.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 30
+junior_time_estimate_min: 90
