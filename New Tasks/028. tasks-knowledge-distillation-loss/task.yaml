@@ -1,0 +1,39 @@
+instruction: |-
+  You are a Deep Learning Research Engineer trying to compress a large model using **Knowledge Distillation**.
+  
+  **The Goal:**
+  Train a small "Student" network (`/app/src/student.py`) to mimic a pre-trained "Teacher" network.
+  
+  **The Problem:**
+  The training script (`/app/src/train_distillation.py`) runs without errors, but the Student model is **not learning** from the Teacher. Its performance is identical to training from scratch (Baseline), whereas Distillation should provide a significant boost (~5-10% improvement on this dataset).
+  
+  **Technical Context:**
+  - We use the standard Hinton et al. Knowledge Distillation loss: 
+    $Loss = \alpha \cdot T^2 \cdot KL(Student, Teacher) + (1-\alpha) \cdot CE(Student, Labels)$
+  - $T$ (Temperature) is set to 4.0.
+  - Framework: PyTorch.
+
+  **Your Mission:**
+  1.  **Diagnose:** Analyze the `compute_distillation_loss` function in `/app/src/train_distillation.py`.
+  2.  **Fix:** There are **three specific mathematical/API implementation errors** in how the KL Divergence and Temperature scaling are handled relative to PyTorch's `nn.KLDivLoss` documentation.
+      - *Hint 1:* What input format does `nn.KLDivLoss` expect? (Logits? Probs? Log-Probs?)
+      - *Hint 2:* What happens to the magnitude of gradients when you divide logits by a large Temperature $T$?
+  3.  **Validate:** Fix the code. Run the script. The `Final Test Accuracy` must exceed **85%**. (The broken version stagnates around 70-75%).
+  4.  **Artifact:** The script saves the trained model to `/app/output/student.pth`.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: deep-learning
+tags:
+  - pytorch
+  - knowledge-distillation
+  - loss-functions
+  - debugging
+  - math
+parser_name: pytest
+max_agent_timeout_sec: 900.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 60
