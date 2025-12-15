@@ -1,0 +1,34 @@
+instruction: |-
+  You are a Flight Control Engineer debugging a drone's altitude hold system.
+  
+  **The Incident:**
+  The current sensor smoothing script (`/app/src/control_loop.py`) produces beautiful, smooth data in post-processing analysis.
+  However, when deployed to the real-time flight controller, the drone crashes immediately. The control loop throws an error saying "Future data not available".
+  
+  **Diagnosis:**
+  The script uses `scipy.signal.filtfilt`. This is a **non-causal (zero-phase)** filter. It looks ahead into the future to smooth the current timestamp. This works for offline data analysis but is impossible in a live system.
+
+  **Your Mission:**
+  1.  **Fix:** Modify `/app/src/control_loop.py`. Replace `filtfilt` with a **Causal Filter** (e.g., `lfilter`, `butter` filter, or a simple Exponential Moving Average).
+      - The filter must only use past and current data.
+  2.  **Tune:** You must tune the filter parameters (e.g., window size, alpha, cutoff frequency) to satisfy two conflicting requirements:
+      - **Noise Rejection:** The variance of the signal in stable regions must be reduced by at least **90%** compared to the raw input.
+      - **Low Latency:** When the drone steps up its altitude (Step Response), the filtered signal must reach 50% of the target value within **5 timesteps**. (Currently, heavy smoothing creates huge lag, causing the drone to overshoot).
+  3.  **Output:** The script must process `/app/data/sensor_input.csv` and save the smoothed result to `/app/output/smoothed_sensor.csv`.
+
+author_name: Gemini Benchmarker
+author_email: benchmark@example.com
+difficulty: hard
+category: signal-processing
+tags:
+  - robotics
+  - scipy
+  - real-time
+  - filtering
+  - physics
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 60
