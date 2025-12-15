@@ -1,0 +1,9 @@
+services:
+  agent-sandbox:
+    build: .
+    image: terminal-bench/tasks-triplet-loss-mining:latest
+    container_name: task_triplet_loss
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: tail -f /dev/null

@@ -1,0 +1,40 @@
+instruction: |-
+  You are a Computer Vision Research Engineer working on a face recognition system.
+
+  **The Goal:**
+  We are training an embedding model (`task-deps/model.py`) to map similar inputs close together and dissimilar inputs far apart using **Triplet Loss**.
+  To speed up convergence, we are implementing **Batch Hard Mining**, which selects the most difficult positive and negative pairs within each batch to compute the loss.
+
+  **The Issue:**
+  The training logs show that the loss drops to zero almost immediately (in the first few iterations), but the model's accuracy on the validation set remains equivalent to random chance. The embeddings are not clustering by class.
+  We suspect the "Hard Mining" logic in `task-deps/loss.py` is flawed. It seems to be optimizing for something trivial.
+
+  **Your Mission:**
+  1.  **Analyze:** Examine `task-deps/loss.py`, specifically the `batch_hard_triplet_loss` function. Look at how `hardest_positive_dist` and `hardest_negative_dist` are calculated.
+  2.  **Diagnose:** Understanding that:
+      * "Hardest Positive" = The positive example *furthest* from the anchor (Max Distance).
+      * "Hardest Negative" = The negative example *closest* to the anchor (Min Distance).
+      * Check if the current implementation correctly identifies these.
+  3.  **Fix:** Correct the logic in `task-deps/loss.py` to ensure it selects the true hardest negatives.
+      * *Hint:* Pay attention to how the diagonal (self-distance) or invalid pairs are masked before finding the minimum/maximum.
+  4.  **Deliverable:** Save the corrected loss implementation to `/app/solution_loss.py`.
+
+  **Verification:**
+  Run `run-tests.sh`. The test suite will simulate a training step and verify that the loss is non-zero for a batch of random embeddings (since random embeddings should incur loss) and that the gradients behave correctly.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: metric-learning
+tags:
+  - pytorch
+  - computer-vision
+  - loss-functions
+  - debugging
+  - math
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 60
