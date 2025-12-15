@@ -1,0 +1,35 @@
+instruction: |-
+  You are an AI Researcher implementing a Graph Attention Network (GAT).
+
+  **The Project:**
+  We have implemented a custom Graph Attention Layer in `/app/task-deps/leaky_gnn.py`. It is intended to aggregate information *only* from a node's direct neighbors in the graph.
+
+  **The Bug:**
+  Our unit tests indicate a critical **Information Leakage** issue. When we pass a batch of disconnected subgraphs through the model, nodes seem to be attending to information from completely unrelated nodes in the graph (i.e., nodes they do not share an edge with).
+  Effectively, the model is behaving like a standard dense Transformer (fully connected) rather than a GNN, which ruins the computational efficiency and the inductive bias of the graph structure.
+
+  **Your Mission:**
+  1.  **Analyze:** Examine the `forward` method in the `GATLayer` class in `/app/task-deps/leaky_gnn.py`.
+  2.  **Diagnose:** Identify why the attention mechanism is attending to non-neighbor nodes. Look closely at how the `adj_matrix` is used (or unused) before the softmax operation.
+  3.  **Fix:** Modify the code to correctly mask the attention scores. You must ensure that attention scores corresponding to non-existent edges are set to a very large negative number (e.g., `-1e9`) before the softmax, so they effectively become zero probability.
+  4.  **Deliverable:** Save the corrected file to `/app/solution_gnn.py`.
+
+  **Verification:**
+  Run `run-tests.sh`. The test harness uses PyTorch autograd to check the Jacobian of the layer. It asserts that the gradient of a node's output with respect to a non-neighbor's input is exactly zero.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: deep-learning
+tags:
+  - pytorch
+  - gnn
+  - debugging
+  - information-leakage
+  - autograd
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 60
