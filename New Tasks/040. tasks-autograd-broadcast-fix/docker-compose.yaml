@@ -1,0 +1,9 @@
+services:
+  agent:
+    build: .
+    image: tbench_autograd_fix
+    platform: linux/amd64
+    volumes:
+      - ./tests:/tests
+      - ./run-tests.sh:/run-tests.sh
+    command: tail -f /dev/null

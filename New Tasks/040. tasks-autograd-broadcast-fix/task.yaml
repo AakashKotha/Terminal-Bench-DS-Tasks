@@ -1,0 +1,24 @@
+name: tasks-autograd-broadcast-fix
+description: |
+  You are maintaining 'nanograd', a lightweight deep learning framework. A user has reported that training a simple MLP fails when using a batch size greater than 1.
+  
+  The provided training script `train.py` implements a simple regression task. It currently crashes or produces incorrect results because the model parameters change shape during optimization.
+  
+  Your task is to:
+  1. Analyze `nanograd.py` and `train.py` to understand the failure.
+  2. Fix the bug in `nanograd.py` (specifically in the autograd engine) so that gradients are correctly calculated for broadcasted operations.
+  3. Ensure `train.py` runs successfully and the model converges (loss < 0.1).
+  
+  Constraint: Do not modify `train.py`. You must fix the core library in `nanograd.py`.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: machine-learning-systems
+tags:
+  - python
+  - machine-learning
+  - debugging
+  - mathematics
+max_agent_timeout_sec: 1200
+max_test_timeout_sec: 60
