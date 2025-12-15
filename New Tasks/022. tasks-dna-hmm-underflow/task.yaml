@@ -1,0 +1,37 @@
+instruction: |-
+  You are a Bioinformatics Software Engineer maintaining a gene prediction tool.
+  The tool uses a **Hidden Markov Model (HMM)** to annotate DNA sequences as either 'Exon' (Coding region) or 'Intron' (Non-coding region).
+
+  **The Incident:**
+  The current implementation (`/app/src/naive_hmm.py`) passes all unit tests for short sequences.
+  However, biologists report that when they run it on real chromosomes (sequences > 500 base pairs), the tool crashes or returns empty predictions with a "Zero Probability" warning.
+
+  **Your Mission:**
+  1.  **Diagnose:** Run `/app/src/naive_hmm.py`. It generates synthetic DNA and attempts to decode it. Observe the difference in behavior between the "Short Sequence" test (Success) and "Long Sequence" test (Failure).
+  2.  **Analyze:** Look at the `viterbi` function. Consider what happens mathematically when you multiply thousands of small probabilities ($< 1.0$) together.
+  3.  **Fix:** Rewrite the `viterbi` algorithm in `naive_hmm.py` to use **Log-Space Arithmetic**.
+      - Instead of storing probabilities $p$, store log-probabilities $\ln(p)$.
+      - Instead of multiplication, use addition.
+      - Ensure the final output is converted back or interpreted correctly to produce the state sequence.
+  4.  **Verify:** The script must successfully decode a 2,000bp sequence without underflow.
+  5.  **Output:** The script automatically saves the predictions to `/app/output/predictions.json`.
+
+  **Constraints:**
+  - You must implement the logic manually (numpy is allowed). Do not switch to a library like `hmmlearn`. We need to fix *this* custom engine.
+
+author_name: Gemini Benchmarker
+author_email: benchmark@example.com
+difficulty: hard
+category: scientific-computing
+tags:
+  - bioinformatics
+  - hidden-markov-model
+  - numerical-stability
+  - algorithms
+  - numpy
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 20
+junior_time_estimate_min: 90
