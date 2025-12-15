@@ -1,0 +1,38 @@
+instruction: |-
+  You are an ML Infrastructure Engineer optimizing a model serving endpoint.
+
+  **The System:**
+  We have deployed a lightweight Python inference server using `asyncio` in `/app/task-deps/server.py`. It serves a dummy CPU-intensive Deep Learning model defined in `/app/task-deps/model.py`.
+  The server exposes two endpoints:
+  1. `/predict`: Runs the heavy model inference.
+  2. `/health`: A lightweight heartbeat used by the load balancer.
+
+  **The Incident:**
+  The monitoring system keeps killing our pods. The logs show that whenever a client sends a request to `/predict`, the `/health` endpoint becomes unresponsive for several seconds. 
+  Because the health check times out, the orchestrator thinks the service is dead and restarts it.
+
+  **Your Mission:**
+  1.  **Analyze:** Examine `/app/task-deps/server.py`. The server uses Python's `asyncio` for concurrency.
+  2.  **Diagnose:** Identify why a request to `/predict` prevents `/health` from responding immediately, despite the server being asynchronous.
+  3.  **Fix:** Modify `server.py` to ensure that heavy model computations do not block the main event loop. You must offload the blocking computation correctly so that the event loop remains free to answer health checks concurrently.
+  4.  **Deliverable:** Save the corrected server code to `/app/solution_server.py`.
+
+  **Verification:**
+  Run `run-tests.sh`. The test harness starts your server, sends a "heavy" prediction request, and *concurrently* pings the health endpoint. The test passes only if the health check returns immediately (< 0.1s) while the prediction is still running.
+
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: ml-systems
+tags:
+  - python
+  - asyncio
+  - concurrency
+  - ml-serving
+  - debugging
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 60.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 15
+junior_time_estimate_min: 60
