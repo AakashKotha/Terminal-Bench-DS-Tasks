@@ -1,0 +1,34 @@
+instruction: |-
+  You are an AI Research Scientist optimizing a custom Transformer implementation for a sequence-to-sequence task (reversing a sequence of numbers).
+
+  **The Problem:**
+  We have implemented a standard Transformer encoder-decoder model in `/app/task-deps/transformer.py` and a training script in `/app/task-deps/train.py`.
+  However, despite the architecture looking correct on the surface, the model is **failing to converge**. The training loss gets stuck around 2.3-2.5 and accuracy remains near random guessing, even after many epochs.
+
+  **Your Mission:**
+  1. Run the training script (`python3 /app/task-deps/train.py`) to observe the failure.
+  2. Analyze the `MultiHeadAttention` class in `/app/task-deps/transformer.py`.
+  3. Identify the specific mathematical flaw in the "Scaled Dot-Product Attention" calculation that is causing gradients to vanish or explode (likely related to the magnitude of the dot products).
+  4. Fix the code in `/app/task-deps/transformer.py`.
+  5. Retrain the model to verify it reaches near 100% accuracy on the reverse task.
+
+  **Constraints:**
+  - Do not change the model hyperparameters (layers, heads, dimensions) in `train.py`.
+  - Do not switch to `torch.nn.MultiheadAttention`; you must fix the custom implementation.
+  
+author_name: Pilotcrew AI
+author_email: admin@pilotcrew.ai
+difficulty: hard
+category: machine-learning-systems
+tags:
+  - pytorch
+  - transformer
+  - debugging
+  - deep-learning
+  - vanishing-gradients
+parser_name: pytest
+max_agent_timeout_sec: 600.0
+max_test_timeout_sec: 120.0
+run_tests_in_same_shell: false
+expert_time_estimate_min: 15
+junior_time_estimate_min: 60
